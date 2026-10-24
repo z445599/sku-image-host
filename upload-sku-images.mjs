@@ -12,8 +12,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const getArg = (name, dflt) => {
   const i = args.indexOf(`--${name}`);
@@ -23,7 +25,7 @@ const hasFlag = (name) => args.includes(`--${name}`);
 
 const SRC_DIR = getArg('dir', '');
 const OUT_XLSX = getArg('out', 'sku-links.xlsx');
-const REPO_DIR = getArg('repo', path.join(process.cwd(), 'sku-image-host'));
+const REPO_DIR = path.resolve(getArg('repo', SCRIPT_DIR));
 const OWNER = getArg('owner', 'z445599');
 const REPO = getArg('repo-name', 'sku-image-host');
 const BRANCH = getArg('branch', 'main');
